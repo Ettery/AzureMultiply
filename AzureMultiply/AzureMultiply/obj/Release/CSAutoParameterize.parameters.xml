@@ -3,4 +3,7 @@
   <parameter name="DefaultConnection-Web.config Connection String" description="DefaultConnection Connection String used in web.config by the application to access the database." defaultValue="Data Source=.\SQLEXPRESS;Initial Catalog=aspnet-AzureMultiply-20130504093926;Integrated Security=SSPI" tags="SqlConnectionString">
     <parameterEntry kind="XmlFile" scope="D:\\dev\\AzureMultiplyGit\\AzureMultiply\\AzureMultiply\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='DefaultConnection']/@connectionString" />
   </parameter>
+  <parameter name="AzureMultiply.Models.AzureMathDbContext-Web.config Connection String" description="AzureMultiply.Models.AzureMathDbContext Connection String used in web.config by the application to access the database." defaultValue="AzureMultiply.Models.AzureMathDbContext_ConnectionString" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="D:\\dev\\AzureMultiplyGit\\AzureMultiply\\AzureMultiply\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='AzureMultiply.Models.AzureMathDbContext']/@connectionString" />
+  </parameter>
 </parameters>

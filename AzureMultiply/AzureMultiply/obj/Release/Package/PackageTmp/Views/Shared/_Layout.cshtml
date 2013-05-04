@@ -1,48 +1,69 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <title>@ViewBag.Title - My ASP.NET MVC Application</title>
-        <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
-        <meta name="viewport" content="width=device-width" />
-        @Styles.Render("~/Content/css")
-        @Scripts.Render("~/bundles/modernizr")
-    </head>
-    <body>
-        <header>
-            <div class="content-wrapper">
-                <div class="float-left">
-                    <p class="site-title">@Html.ActionLink("your logo here", "Index", "Home")</p>
-                </div>
-                <div class="float-right">
-                    <section id="login">
-                        @Html.Partial("_LoginPartial")
-                    </section>
-                    <nav>
-                        <ul id="menu">
-                            <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                            <li>@Html.ActionLink("About", "About", "Home")</li>
-                            <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                        </ul>
-                    </nav>
-                </div>
-            </div>
-        </header>
-        <div id="body">
-            @RenderSection("featured", required: false)
-            <section class="content-wrapper main-content clear-fix">
-                @RenderBody()
-            </section>
-        </div>
-        <footer>
-            <div class="content-wrapper">
-                <div class="float-left">
-                    <p>&copy; @DateTime.Now.Year - My ASP.NET MVC Application</p>
-                </div>
-            </div>
-        </footer>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title</title>
+    <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/Dock.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/Button.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/themes/azuremultiply-01/jquery-ui-1.8.16.css")" rel="stylesheet" type="text/css" />
+    <script src="@Url.Content("~/Scripts/modernizr-2.5.3.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery-1.7.1.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery-ui-1.8.20.js")" type="text/javascript"></script>
+@*    <script src="@Url.Content("~/Scripts/soundmanager2-jsmin.js")" type="text/javascript"></script>*@
 
-        @Scripts.Render("~/bundles/jquery")
-        @RenderSection("scripts", required: false)
-    </body>
+@*    <script type="text/javascript">
+        var soundBeepWrong;
+        var soundBeepRight;
+
+        soundManager.useHTML5Audio;
+        soundManager.url = '~/Content/soundmanager_flash/';
+
+        soundManager.onready(function () {
+
+            // SM2 has loaded - now you can create and play sounds!
+            var soundBeepRight = soundManager.createSound({
+                id: 'soundBeepRight',
+                url: '~/Content/sounds/beep_right.mp3'
+                // onload: myOnloadHandler,
+            });
+
+            soundBeepRight.play();
+
+        });
+    </script>*@
+
+
+
+</head>
+<body>
+    <div class="body-div">
+        <div class="top-bar">
+            <div class="col-top">
+                <div id="dock">
+                    <ul>
+                        <li id="home" class="@ViewBag.HomeClass">@Html.ActionLink("Home", "Index", "Home")</li>
+                        <li id="play" class="@ViewBag.PlayClass">@Html.ActionLink("Play", "Select", "Play")</li>
+                        <li id="register" class="@ViewBag.RegisterClass">@Html.ActionLink("Register", "Register", "Account")</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="second-bar">
+            <div class="col-top">
+                <div class="btn-install">
+                    Azure Math <span class="label">beta</span>
+                </div>
+                <div class="logon">
+                    @Html.Partial("_LogOnPartial")
+                </div>
+            </div>
+            <div class="title">
+            </div>
+        </div>
+        <div class="page">
+            @RenderBody()
+        </div>
+    </div>
+</body>
 </html>

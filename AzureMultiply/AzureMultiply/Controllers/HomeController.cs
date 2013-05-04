@@ -10,22 +10,15 @@ namespace AzureMultiply.Controllers
     {
         public ActionResult Index()
         {
-            ViewBag.Message = "Modify this template to jump-start your ASP.NET MVC application.";
-
+            ViewBag.Message = "Welcome to Azure Math!";
+            ViewBag.HomeClass = "selected";
+            ViewBag.PlayClass = "unselected";
+            ViewBag.RegisterClass = "unselected";
             return View();
         }
 
         public ActionResult About()
         {
-            ViewBag.Message = "Your app description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
             return View();
         }
     }

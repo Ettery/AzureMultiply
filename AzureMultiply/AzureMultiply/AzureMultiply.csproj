@@ -163,14 +163,54 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\PlayController.cs" />
+    <Compile Include="Controllers\UserScoresController.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
+    <Compile Include="Models\AzureMathDbContext.cs" />
+    <Compile Include="Models\DatabaseEntities.cs" />
+    <Compile Include="Models\PlayModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="button.htm" />
+    <Content Include="Content\Button.css" />
+    <Content Include="Content\Dock.css" />
+    <Content Include="Content\images\body_bg.jpg" />
+    <Content Include="Content\images\dock.png" />
+    <Content Include="Content\images\html_bg.png" />
+    <Content Include="Content\images\rstripe_bg.jpg" />
+    <Content Include="Content\images\stripe2_bg.jpg" />
+    <Content Include="Content\images\stripe3_bg.jpg" />
+    <Content Include="Content\images\stripe_bg.jpg" />
+    <Content Include="Content\soundmanager_flash\soundmanager2.swf" />
+    <Content Include="Content\soundmanager_flash\soundmanager2_debug.swf" />
+    <Content Include="Content\soundmanager_flash\soundmanager2_flash9.swf" />
+    <Content Include="Content\soundmanager_flash\soundmanager2_flash9_debug.swf" />
+    <Content Include="Content\sounds\applause.mp3" />
+    <Content Include="Content\sounds\beep_right.mp3" />
+    <Content Include="Content\sounds\beep_wrong.mp3" />
+    <Content Include="Content\sounds\lionroar.mp3" />
+    <Content Include="Content\themes\azuremultiply-01\images\ui-bg_diagonals-thick_18_b81900_40x40.png" />
+    <Content Include="Content\themes\azuremultiply-01\images\ui-bg_diagonals-thick_20_666666_40x40.png" />
+    <Content Include="Content\themes\azuremultiply-01\images\ui-bg_flat_10_000000_40x100.png" />
+    <Content Include="Content\themes\azuremultiply-01\images\ui-bg_glass_100_f6f6f6_1x400.png" />
+    <Content Include="Content\themes\azuremultiply-01\images\ui-bg_glass_100_fdcecf_1x400.png" />
+    <Content Include="Content\themes\azuremultiply-01\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Content\themes\azuremultiply-01\images\ui-bg_gloss-wave_35_eb141d_500x100.png" />
+    <Content Include="Content\themes\azuremultiply-01\images\ui-bg_highlight-soft_100_eeeeee_1x100.png" />
+    <Content Include="Content\themes\azuremultiply-01\images\ui-bg_highlight-soft_75_ff7b7f_1x100.png" />
+    <Content Include="Content\themes\azuremultiply-01\images\ui-icons_222222_256x240.png" />
+    <Content Include="Content\themes\azuremultiply-01\images\ui-icons_228ef1_256x240.png" />
+    <Content Include="Content\themes\azuremultiply-01\images\ui-icons_d7040c_256x240.png" />
+    <Content Include="Content\themes\azuremultiply-01\images\ui-icons_ef0813_256x240.png" />
+    <Content Include="Content\themes\azuremultiply-01\images\ui-icons_ff373f_256x240.png" />
+    <Content Include="Content\themes\azuremultiply-01\images\ui-icons_ff7b7a_256x240.png" />
+    <Content Include="Content\themes\azuremultiply-01\images\ui-icons_ffffff_256x240.png" />
+    <Content Include="Content\themes\azuremultiply-01\jquery-ui-1.8.16.css" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
@@ -214,7 +254,9 @@
     <Content Include="Content\themes\base\minified\images\ui-icons_cd0a0a_256x240.png" />
     <Content Include="Content\themes\base\minified\jquery-ui.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.accordion.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.all.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.autocomplete.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.base.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.button.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.core.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.datepicker.min.css" />
@@ -225,8 +267,11 @@
     <Content Include="Content\themes\base\minified\jquery.ui.slider.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.tabs.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
+    <Content Include="dock.htm" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
+    <Content Include="Main.htm" />
+    <Content Include="Play.htm" />
     <Content Include="Scripts\jquery-1.7.1-vsdoc.js" />
     <Content Include="Scripts\jquery-1.7.1.js" />
     <Content Include="Scripts\jquery-1.7.1.min.js" />
@@ -241,7 +286,14 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\knockout-2.1.0.debug.js" />
     <Content Include="Scripts\knockout-2.1.0.js" />
+    <Content Include="Scripts\MicrosoftAjax.debug.js" />
+    <Content Include="Scripts\MicrosoftAjax.js" />
+    <Content Include="Scripts\MicrosoftMvcAjax.debug.js" />
+    <Content Include="Scripts\MicrosoftMvcAjax.js" />
+    <Content Include="Scripts\MicrosoftMvcValidation.debug.js" />
+    <Content Include="Scripts\MicrosoftMvcValidation.js" />
     <Content Include="Scripts\modernizr-2.5.3.js" />
+    <Content Include="Scripts\soundmanager2-jsmin.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -291,6 +343,18 @@
   <ItemGroup>
     <None Include="Properties\PublishProfiles\azuremultiply.pubxml" />
     <None Include="Properties\PublishProfiles\AzureMultiply01.pubxml" />
+    <Content Include="Views\Account\ChangePassword.cshtml" />
+    <Content Include="Views\Account\ChangePasswordSuccess.cshtml" />
+    <Content Include="Views\Account\LogOn.cshtml" />
+    <Content Include="Views\Play\Index.cshtml" />
+    <Content Include="Views\Play\Select.cshtml" />
+    <Content Include="Views\UserScores\Create.cshtml" />
+    <Content Include="Views\UserScores\Delete.cshtml" />
+    <Content Include="Views\UserScores\Details.cshtml" />
+    <Content Include="Views\UserScores\Edit.cshtml" />
+    <Content Include="Views\UserScores\Index.cshtml" />
+    <Content Include="Views\UserScores\_CreateOrEdit.cshtml" />
+    <Content Include="Views\Shared\_LogOnPartial.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

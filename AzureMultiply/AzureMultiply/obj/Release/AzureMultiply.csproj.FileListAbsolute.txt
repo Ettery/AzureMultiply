@@ -50,3 +50,4 @@ D:\dev\AzureMultiplyGit\AzureMultiply\AzureMultiply\bin\DotNetOpenAuth.OpenId.xm
 D:\dev\AzureMultiplyGit\AzureMultiply\AzureMultiply\bin\DotNetOpenAuth.OpenId.RelyingParty.xml
 D:\dev\AzureMultiplyGit\AzureMultiply\AzureMultiply\obj\Release\AzureMultiply.dll
 D:\dev\AzureMultiplyGit\AzureMultiply\AzureMultiply\obj\Release\AzureMultiply.pdb
+D:\dev\AzureMultiplyGit\AzureMultiply\AzureMultiply\obj\Release\AzureMultiply.csprojResolveAssemblyReference.cache
