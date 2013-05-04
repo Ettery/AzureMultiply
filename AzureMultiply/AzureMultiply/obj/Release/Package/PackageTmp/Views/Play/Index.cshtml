@@ -1,186 +1,229 @@
 ﻿@{
-	ViewBag.Title = "Play";
+    ViewBag.Title = "Play";
 }
 
 @using AzureMultiply.Controllers
 @model AzureMultiply.Models.SelectPlayModel
 
+<style>
+    .horz-thirds {text-align:center;width:33%}
+</style>
+
 <script type="text/javascript" language="javascript">
 
-	var currentAnswer = "";
-	var status = "Counting down...";
-	var numRight = 0;
-	var numWrong = 0;
-	var scoreVisible = false;
-	var elapsedSec = 1;
-	var ranking = 0;
-	var playMode = "@Model.PlayMode";
-	var minPlayValue = @Model.Min;
-	var maxPlayValue = @Model.Max;
-	var jsonPlayValues;
-	var playIndex = 0;
-	var currentQuestion;
-	
-	function processKey(value) {
-		currentAnswer = currentAnswer.concat(value);
-		$('#answer').html(currentAnswer);
-	}
+    var currentAnswer = "";
+    var status = "Counting down...";
+    var numRight = 0;
+    var numWrong = 0;
+    var scoreVisible = false;
+    var elapsedSec = 1;
+    var ranking = 0;
+    var playMode = "@Model.PlayMode";
+    var minPlayValue = @Model.Min;
+    var maxPlayValue = @Model.Max;
+    var jsonPlayValues;
+    var playIndex = 0;
+    var currentQuestion;
+    
+    function processKey(value) {
+        currentAnswer = currentAnswer.concat(value);
+        $('#answer').html(currentAnswer);
+    }
 
-	function evaluateAnswer() {
+    function evaluateAnswer() {
 
-		var answer = parseInt(currentAnswer);
+        var answer = parseInt(currentAnswer);
 //		var correctAnswer = 30;
-		var correctAnswer = parseInt(currentQuestion.Result);
-		
-		if(answer == correctAnswer) {
-			numRight++;
-		}
-		else {
-			numWrong++;            
-		}
-		
-		$('#num-right-value').html(numRight);
-		$('#num-wrong-value').html(numWrong);
+        var correctAnswer = parseInt(currentQuestion.Result);
+        
+        if(answer == correctAnswer) {
+            numRight++;
+        }
+        else {
+            numWrong++;            
+        }
+        
+        $('#num-right-value').html(numRight);
+        $('#num-wrong-value').html(numWrong);
 
-		if (!scoreVisible) {
-			$("#score").fadeIn();
-			$("#score").show("Slide", "", 500);
-			scoreVisible = true;
-		}
+        if (!scoreVisible) {
+            $("#score").fadeIn();
+            $("#score").show("Slide", "", 500);
+            scoreVisible = true;
+        }
 
-		ranking = ((numRight - (numWrong * 1.5)) * 1000) / elapsedSec;
-		$('#ranking-text').html("Ranking: ".concat(parseFloat(ranking).toFixed(0)));
+        ranking = ((numRight - (numWrong * 1.5)) * 1000) / elapsedSec;
+        $('#ranking-text').html("Ranking: ".concat(parseFloat(ranking).toFixed(0)));
 
-		playIndex++;
-		displayNextQuestion();
+        playIndex++;
+        displayNextQuestion();
 
-		return true;
-	}
+        return true;
+    }
 
-	function loadPlayValues() {
-		var selectModel = new Object();
-		selectModel.playMode = playMode;
-		selectModel.min = minPlayValue;
-		selectModel.max = maxPlayValue;
+    function loadPlayValues() {
+        var selectModel = new Object();
+        selectModel.playMode = playMode;
+        selectModel.min = minPlayValue;
+        selectModel.max = maxPlayValue;
 
-		var jsonStr = JSON.stringify(selectModel);
-		
-		$.ajax({
-			url: 'Play/LoadPlay',
-			type: 'POST',
-			data: jsonStr,      // JSON.stringify({ minValue: minPlayValue })
-			 dataType: 'json',
-			contentType: 'application/json',
-			success: function (playValues, textStatus, jqXHR) {
-				jsonPlayValues = playValues;
-				displayNextQuestion();
-			},
-			error: function (jqXHR, textStatus, errorThrown) {
-				$('#return1').append("Error:" + textStatus);
-				$('#return2').append(errorThrown);
-			}
-		});
-	}
+        var jsonStr = JSON.stringify(selectModel);
+        
+        $.ajax({
+            url: 'Play/LoadPlay',
+            type: 'POST',
+            data: jsonStr,      // JSON.stringify({ minValue: minPlayValue })
+             dataType: 'json',
+            contentType: 'application/json',
+            success: function (playValues, textStatus, jqXHR) {
+                jsonPlayValues = playValues;
+                displayNextQuestion();
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                $('#return1').append("Error:" + textStatus);
+                $('#return2').append(errorThrown);
+            }
+        });
+    }
 
-	function displayNextQuestion() {
-		currentQuestion = jsonPlayValues[playIndex]; 
+    function displayNextQuestion() {
+        currentQuestion = jsonPlayValues[playIndex]; 
 
-		currentAnswer = "";
-		$('#answer').html(currentAnswer);
+        currentAnswer = "";
+        $('#answer').html(currentAnswer);
 
-		$("#first-no-val").html(currentQuestion.First);            
-		$("#operator-val").html(currentQuestion.OperatorString);
-		$("#second-no-val").html(currentQuestion.Second);
+        $("#first-no-val").html(currentQuestion.First);            
+        $("#operator-val").html(currentQuestion.OperatorString);
+        $("#second-no-val").html(currentQuestion.Second);
 
-	}
+    }
 
-	$(document).keydown(function (event) {
-		if (status == "Counting down...") {
-			if (event.keyCode == 13) {
-				evaluateAnswer();
-				displayNextQuestion();
-			}
-			else if ((event.keyCode < 48 || event.keyCode > 57) && (event.keyCode < 96 || event.keyCode > 105)) {
-				// If not a number stop the keypress
-				event.preventDefault();
-			}
-			else {
-				var keyvalue = String.fromCharCode(event.keyCode);
-				processKey(keyvalue);
-			}
-		}
-	});
+    $(document).keydown(function (event) {
+        if (status == "Counting down...") {
+            if (event.keyCode == 13) {
+                evaluateAnswer();
+                displayNextQuestion();
+            }
+            else if ((event.keyCode < 48 || event.keyCode > 57) && (event.keyCode < 96 || event.keyCode > 105)) {
+                // If not a number stop the keypress
+                event.preventDefault();
+            }
+            else {
+                var keyvalue = String.fromCharCode(event.keyCode);
+                processKey(keyvalue);
+            }
+        }
+    });
 
-	$(function () {
-		var count = 0;
-		var max = 120;
-		var interval = (max / 100);
+    $(function () {
+        var count = 0;
+        var max = 120;
+        var interval = (max / 100);
 
-		if(jsonPlayValues == undefined){
-			var pv = loadPlayValues();
-		}
+        if(jsonPlayValues == undefined){
+            var pv = loadPlayValues();
+        }
 
-		var offset = $('#question').offset();
-		$('#score').css({ "top": offset.top + "px" });
+        var offset = $('#question').offset();
+        $('#score').css({ "top": offset.top + "px" });
 
-		setInterval(function () {
-			$("#progressbar").progressbar({ value: count });
+        setInterval(function () {
+            $("#progressbar").progressbar({ value: count });
 
-			if (count >= 100) {
-				$("span.silver").children().html("-");
-				status = "Game over!";
-			}
+            if (count >= 100) {
+                $("span.silver").children().html("-");
+                status = "Game over!";
+            }
 
-			$('#progressbar-text').html(status);
-			count++;
-			elapsedSec = (interval * count);
-		}, (interval * 1000));
+            $('#progressbar-text').html(status);
+            count++;
+            elapsedSec = (interval * count);
+        }, (interval * 1000));
 
 //      $("a").click(function(event){
 //           event.preventDefault();
 //           $(this).hide("slow");
 //      });
-		
-	});
+        
+    });
 </script>
 
 <div id="return1"></div>
 <div id="return2"></div>
 <div class="page">
-	<header>
-		<p />
-		<h2>@ViewBag.Message</h2>
-		<p />
-	</header>
-	<section id="main">
-	<div id="score" class="ui-widget-content ui-corner-all" style="display:inline-block;float:right; width:200px;height:220px;left:400px;top:20;">
-		<div id="num-right" class="green"><div id="num-right-value" class="btn-shiny" style="margin-right: 50px;margin-left: 50px;margin-top: 10px;margin-bottom: 10px;text-align:center;">-</div></div>
-		<div id="num-wrong" class="red"  ><div id="num-wrong-value" class="btn-shiny" style="margin-right: 50px;margin-left: 50px;margin-top: 10px;margin-bottom: 10px;text-align:center;">-</div></div>    
-		<div class="ui-widget-content ui-corner-all" id="ranking-text" style="text-align:center;margin-right: 20px;margin-left: 20px;margin-top: 10px;margin-bottom: 10px;text-align:center;"></div>
-	</div>
-	<p />
-	<div id="question">
-	<span id="first-no" class="silver"><span id="first-no-val" class="btn-shiny">12</span></span>     <span id="operator" class="silver"><span id="operator-val" class="btn-shiny">x</span></span>     <span id="second-no" class="silver"><span id="second-no-val" class="btn-shiny">9</span></span>     <span id="equals" class="silver"><span class="btn-shiny">=</span></span>     <span id="answer-col" class="blue"><span id="answer" class="btn-shiny">?</span></span>
-	</div>
-	<br />
-	<p />
-	<br />
-	<p />
-	<div>Type in the answer and press "Enter"...</div>
-	<p />
-	<div>You have 2 minutes to answer as many questions as you can.</div>
-	</section>
-	<footer>
-	<br />
-	<p />
-	<br />
-	<p />
-	<br />
-	<p />
-	<div id="progressbar"></div>
-	<br />
-	<p />
-	<div class="ui-widget-content ui-corner-all" id="progressbar-text" style="text-align:center"></div>
-	</footer>
+    <header>
+        <p />
+        <h2>@ViewBag.Message</h2>
+        <p />
+    </header>
+    <p />
+    <br />
+    <table style="width:100%;border-width:0px">
+        <tr>
+            <td style="width:45%;height:280px">
+                <section id="main">
+                <div id="question" style="border-width:0px">
+                <span id="first-no" class="gray"><span id="first-no-val" class="btn-shiny">12</span></span>     
+                <span id="operator" class="gray"><span id="operator-val" class="btn-shiny">x</span></span>     
+                <span id="second-no" class="gray"><span id="second-no-val" class="btn-shiny">9</span></span>     
+                <span id="equals" class="gray"><span class="btn-shiny">=</span></span>     
+                <span id="answer-col" class="blue"><span id="answer" class="btn-shiny">?</span></span>
+                </div>
+            </td>
+            <td style="width:25%">
+                <div id="keypad" class="ui-widget-content ui-corner-all" style="display:inline-block;width:100%;height:100%;top:20;padding:10% 10% 10% 10%;">
+                    <table style="width:100%;border:0px">
+                        <tr>
+                            <td class="horz-thirds"><div id="num-1o" class="silver""><div id="num-1" class="btn-shiny"">1</div></div></td>
+                            <td class="horz-thirds"><div id="num-2o" class="silver""><div id="num-2" class="btn-shiny"">2</div></div></td>
+                            <td class="horz-thirds"><div id="num-3o" class="silver""><div id="num-3" class="btn-shiny"">3</div></div></td>
+                        </tr>
+                        <tr>
+                            <td class="horz-thirds"><div id="num-4o" class="silver""><div id="num-4" class="btn-shiny"">4</div></div></td>
+                            <td class="horz-thirds"><div id="num-5o" class="silver""><div id="num-5" class="btn-shiny"">5</div></div></td>
+                            <td class="horz-thirds"><div id="num-6o" class="silver""><div id="num-6" class="btn-shiny"">6</div></div></td>
+                        </tr>
+                        <tr>
+                            <td class="horz-thirds"><div id="num-7o" class="silver""><div id="num-7" class="btn-shiny"">7</div></div></td>
+                            <td class="horz-thirds"><div id="num-8o" class="silver""><div id="num-8" class="btn-shiny"">8</div></div></td>
+                            <td class="horz-thirds"><div id="num-9o" class="silver""><div id="num-9" class="btn-shiny"">9</div></div></td>
+                        </tr>
+                        <tr>
+                            <td class="horz-thirds"><div id="num-blank" class="silver""></div></td>
+                            <td class="horz-thirds"><div id="num-0o" class="silver""><div id="num-0" class="btn-shiny"">0</div></div></td>
+                            <td class="horz-thirds"><div id="num-hasho" class="silver""><div id="num-hash" class="btn-shiny"">#</div></div></td>
+                        </tr>
+                    </table>
+                </div>
+            </td>
+            <td style="width:30%">
+                <div id="score" class="ui-widget-content ui-corner-all" style="display:inline-block;float:right; width:80%;height:280px;top:20;">
+                    <div id="num-right" class="green" style="width:100%"><div id="num-right-value" class="btn-shiny" style="margin:10% 15% 10% 15%;text-align:center;">-</div></div>
+                    <div id="num-wrong" class="red" style="width:100%"><div id="num-wrong-value" class="btn-shiny" style="margin:10% 15% 10% 15%;text-align:center;">-</div></div>    
+                    <div class="ui-widget-content ui-corner-all" id="ranking-text" style="text-align:center;margin:10% 15% 10% 15%;text-align:center;"></div>
+                </div>
+            </td>
+        </tr>
+    </table>
+    <p />
+    <p />
+    <br />
+    <p />
+    <div>Type in the answer and press "Enter"...</div>
+    <p />
+    <div>You have 2 minutes to answer as many questions as you can.</div>
+    </section>
+    <footer>
+    <br />
+    <p />
+    <br />
+    <p />
+    <br />
+    <p />
+    <div id="progressbar"></div>
+    <br />
+    <p />
+    <div class="ui-widget-content ui-corner-all" id="progressbar-text" style="text-align:center"></div>
+    </footer>
 </div>
 <div id="play-data" style="visibility: hidden"></div>

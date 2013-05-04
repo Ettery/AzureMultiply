@@ -10,11 +10,13 @@ namespace AzureMultiply.Controllers
     {
         public ActionResult Index()
         {
-            ViewBag.Message = "Welcome to Azure Math!";
-            ViewBag.HomeClass = "selected";
-            ViewBag.PlayClass = "unselected";
-            ViewBag.RegisterClass = "unselected";
-            return View();
+            return RedirectToAction("Index", "Play", new AzureMultiply.Models.SelectPlayModel("Multiply|3|7"));
+
+            //ViewBag.Message = "Welcome to Azure Math!";
+            //ViewBag.HomeClass = "selected";
+            //ViewBag.PlayClass = "unselected";
+            //ViewBag.RegisterClass = "unselected";
+            //return View();
         }
 
         public ActionResult About()

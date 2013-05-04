@@ -30,6 +30,16 @@ namespace AzureMultiply.Controllers
             return View();
         }
 
+        public ActionResult PlayDirect()
+        {
+            ViewBag.Message = "Play Azure Math!";
+            ViewBag.HomeClass = "unselected";
+            ViewBag.PlayClass = "selected";
+            ViewBag.RegisterClass = "unselected";
+
+            return View();
+        }
+
         [HttpPost]
         public ActionResult Select(SelectPlayModel model)
         {
@@ -43,15 +53,15 @@ namespace AzureMultiply.Controllers
             return View(model);
         }
 
+        [HttpPost]
+        public ActionResult LoadPlay(string PlayMode, int Min, int Max)
+        {
+            SelectPlayModel playModel = new SelectPlayModel(String.Format("{0}|{1}|{2}", PlayMode, Min, Max));
+            FullPlayModel fullModel = new FullPlayModel(playModel);
 
-        //[HttpPost]
-        //public ActionResult LoadPlay(int minValue)
-        //{
-        //    SelectPlayModel playModel = new SelectPlayModel(String.Format("{0}|{1}|{2}", "Multiply", minValue, 10));
-        //    FullPlayModel fullModel = new FullPlayModel(playModel);
+            return Json(fullModel.PlayValues);
+        }
 
-        //    return Json(fullModel.PlayValues);
-        //}
 
         public class MVal
         {
@@ -70,6 +80,41 @@ namespace AzureMultiply.Controllers
             return Json(maxVals);
         }
 
+
+        [HttpPost]
+        public ActionResult SaveScore(string PlayMode, int Min, int Max, int numRight, int numWrong, int seconds, int rank)
+        {
+            SelectPlayModel playModel = new SelectPlayModel(String.Format("{0}|{1}|{2}", PlayMode, Min, Max));
+            FullPlayModel fullModel = new FullPlayModel(playModel);
+
+            return Json(fullModel.PlayValues);
+        }
+
+
+        /*
+         * 		
+        public int UserScoreId { get; set; }
+        public Guid UserId { get; set; }
+        public DateTime ScoreTime { get; set; }
+        public string Mode   { get; set; }
+        public int MinVal    { get; set; }
+        public int MaxVal    { get; set; }
+        public int NumRight  { get; set; }
+        public int NumWrong  { get; set; }
+        public int TimeSec   { get; set; }
+        public int RankScore { get; set; }
+         * 
+         * */
+
+
+        //[HttpPost]
+        //public ActionResult LoadPlay(int minValue)
+        //{
+        //    SelectPlayModel playModel = new SelectPlayModel(String.Format("{0}|{1}|{2}", "Multiply", minValue, 10));
+        //    FullPlayModel fullModel = new FullPlayModel(playModel);
+
+        //    return Json(fullModel.PlayValues);
+        //}
 
         ////
         //// GET: /Play/Details/5
@@ -111,41 +156,6 @@ namespace AzureMultiply.Controllers
         //    return Json(selectModel);
         //}
 
-        [HttpPost]
-        public ActionResult LoadPlay(string PlayMode, int Min, int Max)
-        {
-            SelectPlayModel playModel = new SelectPlayModel(String.Format("{0}|{1}|{2}", PlayMode, Min, Max));
-            FullPlayModel fullModel = new FullPlayModel(playModel);
-
-            return Json(fullModel.PlayValues);
-        }
-
-        /*
-         * 		
-        public int UserScoreId { get; set; }
-        public Guid UserId { get; set; }
-        public DateTime ScoreTime { get; set; }
-        public string Mode   { get; set; }
-        public int MinVal    { get; set; }
-        public int MaxVal    { get; set; }
-        public int NumRight  { get; set; }
-        public int NumWrong  { get; set; }
-        public int TimeSec   { get; set; }
-        public int RankScore { get; set; }
-         * 
-         * */
-
-
-        [HttpPost]
-        public ActionResult SaveScore(string PlayMode, int Min, int Max, int numRight, int numWrong, int seconds, int rank)
-        {
-            SelectPlayModel playModel = new SelectPlayModel(String.Format("{0}|{1}|{2}", PlayMode, Min, Max));
-            FullPlayModel fullModel = new FullPlayModel(playModel);
-
-            return Json(fullModel.PlayValues);
-        }
-
-        
         ////
         //// GET: /Play/Edit/5
         // public ActionResult Edit(int id)
