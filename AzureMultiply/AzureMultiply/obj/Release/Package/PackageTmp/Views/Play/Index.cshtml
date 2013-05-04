@@ -1,0 +1,186 @@
+﻿@{
+	ViewBag.Title = "Play";
+}
+
+@using AzureMultiply.Controllers
+@model AzureMultiply.Models.SelectPlayModel
+
+<script type="text/javascript" language="javascript">
+
+	var currentAnswer = "";
+	var status = "Counting down...";
+	var numRight = 0;
+	var numWrong = 0;
+	var scoreVisible = false;
+	var elapsedSec = 1;
+	var ranking = 0;
+	var playMode = "@Model.PlayMode";
+	var minPlayValue = @Model.Min;
+	var maxPlayValue = @Model.Max;
+	var jsonPlayValues;
+	var playIndex = 0;
+	var currentQuestion;
+	
+	function processKey(value) {
+		currentAnswer = currentAnswer.concat(value);
+		$('#answer').html(currentAnswer);
+	}
+
+	function evaluateAnswer() {
+
+		var answer = parseInt(currentAnswer);
+//		var correctAnswer = 30;
+		var correctAnswer = parseInt(currentQuestion.Result);
+		
+		if(answer == correctAnswer) {
+			numRight++;
+		}
+		else {
+			numWrong++;            
+		}
+		
+		$('#num-right-value').html(numRight);
+		$('#num-wrong-value').html(numWrong);
+
+		if (!scoreVisible) {
+			$("#score").fadeIn();
+			$("#score").show("Slide", "", 500);
+			scoreVisible = true;
+		}
+
+		ranking = ((numRight - (numWrong * 1.5)) * 1000) / elapsedSec;
+		$('#ranking-text').html("Ranking: ".concat(parseFloat(ranking).toFixed(0)));
+
+		playIndex++;
+		displayNextQuestion();
+
+		return true;
+	}
+
+	function loadPlayValues() {
+		var selectModel = new Object();
+		selectModel.playMode = playMode;
+		selectModel.min = minPlayValue;
+		selectModel.max = maxPlayValue;
+
+		var jsonStr = JSON.stringify(selectModel);
+		
+		$.ajax({
+			url: 'Play/LoadPlay',
+			type: 'POST',
+			data: jsonStr,      // JSON.stringify({ minValue: minPlayValue })
+			 dataType: 'json',
+			contentType: 'application/json',
+			success: function (playValues, textStatus, jqXHR) {
+				jsonPlayValues = playValues;
+				displayNextQuestion();
+			},
+			error: function (jqXHR, textStatus, errorThrown) {
+				$('#return1').append("Error:" + textStatus);
+				$('#return2').append(errorThrown);
+			}
+		});
+	}
+
+	function displayNextQuestion() {
+		currentQuestion = jsonPlayValues[playIndex]; 
+
+		currentAnswer = "";
+		$('#answer').html(currentAnswer);
+
+		$("#first-no-val").html(currentQuestion.First);            
+		$("#operator-val").html(currentQuestion.OperatorString);
+		$("#second-no-val").html(currentQuestion.Second);
+
+	}
+
+	$(document).keydown(function (event) {
+		if (status == "Counting down...") {
+			if (event.keyCode == 13) {
+				evaluateAnswer();
+				displayNextQuestion();
+			}
+			else if ((event.keyCode < 48 || event.keyCode > 57) && (event.keyCode < 96 || event.keyCode > 105)) {
+				// If not a number stop the keypress
+				event.preventDefault();
+			}
+			else {
+				var keyvalue = String.fromCharCode(event.keyCode);
+				processKey(keyvalue);
+			}
+		}
+	});
+
+	$(function () {
+		var count = 0;
+		var max = 120;
+		var interval = (max / 100);
+
+		if(jsonPlayValues == undefined){
+			var pv = loadPlayValues();
+		}
+
+		var offset = $('#question').offset();
+		$('#score').css({ "top": offset.top + "px" });
+
+		setInterval(function () {
+			$("#progressbar").progressbar({ value: count });
+
+			if (count >= 100) {
+				$("span.silver").children().html("-");
+				status = "Game over!";
+			}
+
+			$('#progressbar-text').html(status);
+			count++;
+			elapsedSec = (interval * count);
+		}, (interval * 1000));
+
+//      $("a").click(function(event){
+//           event.preventDefault();
+//           $(this).hide("slow");
+//      });
+		
+	});
+</script>
+
+<div id="return1"></div>
+<div id="return2"></div>
+<div class="page">
+	<header>
+		<p />
+		<h2>@ViewBag.Message</h2>
+		<p />
+	</header>
+	<section id="main">
+	<div id="score" class="ui-widget-content ui-corner-all" style="display:inline-block;float:right; width:200px;height:220px;left:400px;top:20;">
+		<div id="num-right" class="green"><div id="num-right-value" class="btn-shiny" style="margin-right: 50px;margin-left: 50px;margin-top: 10px;margin-bottom: 10px;text-align:center;">-</div></div>
+		<div id="num-wrong" class="red"  ><div id="num-wrong-value" class="btn-shiny" style="margin-right: 50px;margin-left: 50px;margin-top: 10px;margin-bottom: 10px;text-align:center;">-</div></div>    
+		<div class="ui-widget-content ui-corner-all" id="ranking-text" style="text-align:center;margin-right: 20px;margin-left: 20px;margin-top: 10px;margin-bottom: 10px;text-align:center;"></div>
+	</div>
+	<p />
+	<div id="question">
+	<span id="first-no" class="silver"><span id="first-no-val" class="btn-shiny">12</span></span>     <span id="operator" class="silver"><span id="operator-val" class="btn-shiny">x</span></span>     <span id="second-no" class="silver"><span id="second-no-val" class="btn-shiny">9</span></span>     <span id="equals" class="silver"><span class="btn-shiny">=</span></span>     <span id="answer-col" class="blue"><span id="answer" class="btn-shiny">?</span></span>
+	</div>
+	<br />
+	<p />
+	<br />
+	<p />
+	<div>Type in the answer and press "Enter"...</div>
+	<p />
+	<div>You have 2 minutes to answer as many questions as you can.</div>
+	</section>
+	<footer>
+	<br />
+	<p />
+	<br />
+	<p />
+	<br />
+	<p />
+	<div id="progressbar"></div>
+	<br />
+	<p />
+	<div class="ui-widget-content ui-corner-all" id="progressbar-text" style="text-align:center"></div>
+	</footer>
+</div>
+<div id="play-data" style="visibility: hidden"></div>

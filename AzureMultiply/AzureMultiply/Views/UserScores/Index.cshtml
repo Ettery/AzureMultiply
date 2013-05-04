@@ -1,0 +1,83 @@
+@model IEnumerable<AzureMath.Entities.UserScore>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table>
+    <tr>
+        <th></th>
+        <th>
+            ScoreTime
+        </th>
+        <th>
+            Mode
+        </th>
+        <th>
+            MinVal
+        </th>
+        <th>
+            MaxVal
+        </th>
+        <th>
+            NumRight
+        </th>
+        <th>
+            NumWrong
+        </th>
+        <th>
+            TimeSec
+        </th>
+        <th>
+            RankScore
+        </th>
+        <th>
+            User
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.UserScoreId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.UserScoreId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.UserScoreId })
+        </td>
+        <td>
+			@String.Format("{0:g}", item.ScoreTime)
+        </td>
+        <td>
+			@item.Mode
+        </td>
+        <td>
+			@item.MinVal
+        </td>
+        <td>
+			@item.MaxVal
+        </td>
+        <td>
+			@item.NumRight
+        </td>
+        <td>
+			@item.NumWrong
+        </td>
+        <td>
+			@item.TimeSec
+        </td>
+        <td>
+			@item.RankScore
+        </td>
+        <td>
+			@(item.User == null ? "None" : item.User.LastName)
+        </td>
+    </tr>
+}
+
+</table>
+
+

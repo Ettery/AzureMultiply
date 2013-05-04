@@ -1,0 +1,119 @@
+﻿@model AzureMultiply.Models.SelectPlayModel
+@{
+	ViewBag.Title = "Select";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{
+	ViewBag.Title = "Play";
+}
+
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+<script type="text/javascript" language="javascript">
+	// from: http://stackoverflow.com/questions/5783344/on-select-change-event-html-dropdownlistfor
+	$(function() {
+		$( "input:submit").button();
+	});
+	$(function () {
+		$('select#cmbMin').change(function () {
+			var minValue = $(this).val();
+
+			$.ajax({
+				url: 'LoadMaxValues',
+				type: 'POST',
+				data: JSON.stringify({ minValue: minValue }),
+				dataType: 'json',
+				contentType: 'application/json',
+				success: function (maxValues, textStatus, jqXHR) {
+					$('select#cmbMax').empty();
+					$.each(maxValues, function (index, maxVal) {
+						$('select#cmbMax').append('<option value="' + maxVal.Id + '">' + maxVal.Val + '</option>');
+					});
+				},
+				error: function (jqXHR, textStatus, errorThrown) {
+					$('#return1').append("Error:" + textStatus);
+					$('#return2').append(errorThrown);
+				}
+			});
+		});
+	});</script>
+
+<header>
+	<p />
+	<h2>@ViewBag.Message</h2>
+	<p />
+</header>
+<section id="main">
+	<div id="return1"></div>
+	<div id="return2"></div>
+	@using (Html.BeginForm())
+	{
+		@Html.ValidationSummary(true)
+		<fieldset>
+			<legend>What game do you want to play?</legend>
+
+			<div class="editor-label">
+				@Html.LabelFor(model => model.PlayMode)
+			</div>
+			<div class="editor-field">
+				@Html.DropDownListFor(model => model.PlayMode, new List<SelectListItem>() { 
+																				new SelectListItem(){Text="Multiply", Value="Multiply"},
+																				new SelectListItem(){Text="Divide", Value="Divide"},
+																				new SelectListItem(){Text="Bonds", Value="Bonds"}
+																					})
+				@Html.ValidationMessageFor(model => model.PlayMode)
+			</div>
+
+			<div class="editor-label">
+				@Html.LabelFor(model => model.Min)
+			</div>
+			<div class="editor-field">
+				@Html.DropDownListFor(model => model.Min,
+										new List<SelectListItem>() { 
+																				new SelectListItem(){Text="2", Value="2"},
+																				new SelectListItem(){Text="3", Value="3"},
+																				new SelectListItem(){Text="4", Value="4"},
+																				new SelectListItem(){Text="5", Value="5"},
+																				new SelectListItem(){Text="6", Value="6"},
+																				new SelectListItem(){Text="7", Value="7"},
+																				new SelectListItem(){Text="8", Value="8"},
+																				new SelectListItem(){Text="9", Value="9"},
+																				new SelectListItem(){Text="10", Value="10"},
+																				new SelectListItem(){Text="11", Value="11"},
+																				new SelectListItem(){Text="12", Value="12"},
+																				new SelectListItem(){Text="13", Value="13"},
+																				new SelectListItem(){Text="14", Value="14"},
+																				new SelectListItem(){Text="15", Value="15"},
+																				new SelectListItem(){Text="16", Value="16"},
+																				new SelectListItem(){Text="17", Value="17"},
+																				new SelectListItem(){Text="18", Value="18"},
+																				new SelectListItem(){Text="19", Value="19"},
+																				new SelectListItem(){Text="20", Value="20"}
+																					},
+										new { @id="cmbMin" })
+				@Html.ValidationMessageFor(model => model.Min)
+			</div>
+
+			<div class="editor-label">
+				@Html.LabelFor(model => model.Max)
+			</div>
+			<div class="editor-field">
+				@Html.DropDownListFor(model => model.Max,  
+										new List<SelectListItem>(),
+										new {@id="cmbMax"}
+										)
+				@Html.ValidationMessageFor(model => model.Max)
+			</div>
+
+			<p>
+				<input type="submit" value="Play now!" />
+			</p>
+		</fieldset>
+	}
+
+</section>
+<footer>
+</footer>
+
+
+

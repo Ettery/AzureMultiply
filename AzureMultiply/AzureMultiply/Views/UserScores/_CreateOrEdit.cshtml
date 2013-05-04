@@ -1,0 +1,79 @@
+@model AzureMath.Entities.UserScore
+
+@* This partial view defines form fields that will appear when creating and editing entities *@
+
+<div class="editor-label">
+    @Html.LabelFor(model => model.ScoreTime)
+</div>
+<div class="editor-field">
+    @Html.EditorFor(model => model.ScoreTime)
+    @Html.ValidationMessageFor(model => model.ScoreTime)
+</div>
+
+<div class="editor-label">
+    @Html.LabelFor(model => model.Mode)
+</div>
+<div class="editor-field">
+    @Html.EditorFor(model => model.Mode)
+    @Html.ValidationMessageFor(model => model.Mode)
+</div>
+
+<div class="editor-label">
+    @Html.LabelFor(model => model.MinVal)
+</div>
+<div class="editor-field">
+    @Html.EditorFor(model => model.MinVal)
+    @Html.ValidationMessageFor(model => model.MinVal)
+</div>
+
+<div class="editor-label">
+    @Html.LabelFor(model => model.MaxVal)
+</div>
+<div class="editor-field">
+    @Html.EditorFor(model => model.MaxVal)
+    @Html.ValidationMessageFor(model => model.MaxVal)
+</div>
+
+<div class="editor-label">
+    @Html.LabelFor(model => model.NumRight)
+</div>
+<div class="editor-field">
+    @Html.EditorFor(model => model.NumRight)
+    @Html.ValidationMessageFor(model => model.NumRight)
+</div>
+
+<div class="editor-label">
+    @Html.LabelFor(model => model.NumWrong)
+</div>
+<div class="editor-field">
+    @Html.EditorFor(model => model.NumWrong)
+    @Html.ValidationMessageFor(model => model.NumWrong)
+</div>
+
+<div class="editor-label">
+    @Html.LabelFor(model => model.TimeSec)
+</div>
+<div class="editor-field">
+    @Html.EditorFor(model => model.TimeSec)
+    @Html.ValidationMessageFor(model => model.TimeSec)
+</div>
+
+<div class="editor-label">
+    @Html.LabelFor(model => model.RankScore)
+</div>
+<div class="editor-field">
+    @Html.EditorFor(model => model.RankScore)
+    @Html.ValidationMessageFor(model => model.RankScore)
+</div>
+
+<div class="editor-label">
+    User
+</div>
+<div class="editor-field">
+    @Html.DropDownListFor(model => model.UserId, ((IEnumerable<AzureMath.Entities.User>)ViewBag.PossibleUsers).Select(option => new SelectListItem {
+        Text = (option == null ? "None" : option.LastName), 
+        Value = option.UserId.ToString(),
+        Selected = (Model != null) && (option.UserId == Model.UserId)
+    }), "Choose...")
+    @Html.ValidationMessageFor(model => model.UserId)
+</div>

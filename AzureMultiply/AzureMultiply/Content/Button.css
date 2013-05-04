@@ -1,0 +1,99 @@
+﻿
+.btn-install
+{
+	display: inline-block;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	border: 1px solid #FF373F;
+	background: #CC151C 0 -3210px;
+	color: #fff;
+	text-shadow: -1px -1px #890109;
+	font-size: 1.7em;
+	padding: 4px 90px 6px 45px;
+	width: 200px;
+	margin: 17px 0 0 0;
+	-moz-box-shadow: inset 0 1px 0 #FF7B7F;
+	-webkit-box-shadow: inset 0 1px 0 #FF7B7F;
+	box-shadow: inset 1px 1px 0 #FF7B7F, inset -1px -1px 0 #890109;
+	position: relative;
+	text-decoration: none;
+}
+.btn-install .label
+{
+	display: inline-block;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	line-height: 1;
+	padding: 3px 5px;
+	text-transform: uppercase;
+	color: #fff;
+	font-size: .45em;
+	box-shadow: inset 1px 1px 0 #890109, inset -1px -1px 0 #FF7B7F;
+	position: absolute;
+	top: 9px;
+	right: 7px;
+	background: #BA050B;
+}
+.logon
+{
+	display: inline-block;
+	float: right;
+	margin: 23px 0 0 0;
+	padding: 5px 9px 5px 9px;
+	color: #fff;
+	text-decoration: none;
+}
+
+.logon a
+{
+	font-size: 1.4em;
+	text-shadow: -1px -1px #890109;
+}
+
+.logon strong
+{
+	font-size: 1.1em;
+	text-shadow: -1px -1px #890109;
+}
+
+.btn-shiny 
+{
+	font-size: xx-large;
+	padding: .5em;
+	color: #ffffff;
+	text-shadow: 1px 1px 1px #444;
+	-webkit-border-radius: .7em;
+	-moz-border-radius: .7em;
+	border-radius: .7em;
+	-webkit-box-shadow: 2px 2px 3px #999; 
+	box-shadow: 2px 2px 2px #bbb;
+}
+
+ .red .btn-shiny
+{
+	border: solid thin #890109;
+	background-color: #FF373F;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#e9ede8), to(#FF373F),color-stop(0.4, #BA050B));
+}
+
+ .green .btn-shiny
+{
+	border: thin solid #007700;
+	background-color: #33CC33;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#e9ede8), to(#33CC33),color-stop(0.4, #119911));
+}
+
+.blue .btn-shiny
+{
+	border: thin solid #000066;
+	background-color: #0066FF;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#e9ede8), to(#0066FF),color-stop(0.4, #0044DD));
+}
+.silver .btn-shiny
+{
+	border: thin solid #333333;
+	background-color: #AEAEAE;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#e9ede8), to(#777777),color-stop(0.4, #555555));
+}

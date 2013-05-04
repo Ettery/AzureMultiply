@@ -1,0 +1,44 @@
+@model AzureMath.Entities.UserScore
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>UserScore</legend>
+
+    <div class="display-label">ScoreTime</div>
+    <div class="display-field">@String.Format("{0:g}", Model.ScoreTime)</div>
+
+    <div class="display-label">Mode</div>
+    <div class="display-field">@Model.Mode</div>
+
+    <div class="display-label">MinVal</div>
+    <div class="display-field">@Model.MinVal</div>
+
+    <div class="display-label">MaxVal</div>
+    <div class="display-field">@Model.MaxVal</div>
+
+    <div class="display-label">NumRight</div>
+    <div class="display-field">@Model.NumRight</div>
+
+    <div class="display-label">NumWrong</div>
+    <div class="display-field">@Model.NumWrong</div>
+
+    <div class="display-label">TimeSec</div>
+    <div class="display-field">@Model.TimeSec</div>
+
+    <div class="display-label">RankScore</div>
+    <div class="display-field">@Model.RankScore</div>
+
+    <div class="display-label">User</div>
+    <div class="display-field">@(Model.User == null ? "None" : Model.User.LastName)</div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.UserScoreId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
+
+

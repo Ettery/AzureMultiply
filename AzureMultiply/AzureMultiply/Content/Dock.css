@@ -1,0 +1,51 @@
+﻿
+#dock
+{
+    height: 28px;
+    float: right;
+    position: relative;
+    xleft: 35%;
+    top: 4px;
+    font-size: 14px;
+    font-weight: bold;
+    margin-left: auto;
+    margin-right: auto;
+
+}
+
+#dock ul, 
+#dock ul li
+{
+    float: left;
+    list-style-type: none;
+    margin: 0;
+    padding: 0 6px;
+    position: relative;
+}
+
+#dock ul
+{
+    padding: 2px 2px 1px;
+    height: 28px;
+    background-color: #000;
+    border-radius: 3px;
+}
+
+#dock ul li a
+{
+    float: left;
+    display: block;
+    padding: 0 5px;
+    color: #ccc;
+    text-decoration: none;
+    font-size: 14px;
+    line-height: 22px;
+}
+
+#dock ul li a:hover, 
+#dock ul li.selected a
+{
+    color: #fff;
+    border-bottom: 2px solid #FF373F;
+    font-weight: bold;
+}
